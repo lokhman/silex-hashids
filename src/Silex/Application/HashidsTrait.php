@@ -3,6 +3,7 @@
  * Tools for Silex 2+ framework.
  *
  * @author Alexander Lokhman <alex.lokhman@gmail.com>
+ *
  * @link https://github.com/lokhman/silex-tools
  *
  * Copyright (c) 2016 Alexander Lokhman <alex.lokhman@gmail.com>
@@ -32,10 +33,11 @@ namespace Lokhman\Silex\Application;
  * Hashids trait.
  *
  * @author Alexander Lokhman <alex.lokhman@gmail.com>
+ *
  * @link https://github.com/lokhman/silex-tools
  */
-trait HashidsTrait {
-
+trait HashidsTrait
+{
     /**
      * Encodes or decodes the given value with Hashids library.
      *
@@ -45,7 +47,8 @@ trait HashidsTrait {
      *
      * @return mixed Always returns <b>FALSE</b> on error
      */
-    public function hashids($value, $profile = null) {
+    public function hashids($value, $profile = null)
+    {
         $hashids = $this['hashids'];
         if ($profile !== null) {
             $hashids = $hashids[$profile];
@@ -62,5 +65,4 @@ trait HashidsTrait {
 
         return $decoded;
     }
-
 }

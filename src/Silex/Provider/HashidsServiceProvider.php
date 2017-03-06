@@ -3,6 +3,7 @@
  * Tools for Silex 2+ framework.
  *
  * @author Alexander Lokhman <alex.lokhman@gmail.com>
+ *
  * @link https://github.com/lokhman/silex-tools
  *
  * Copyright (c) 2016 Alexander Lokhman <alex.lokhman@gmail.com>
@@ -28,34 +29,36 @@
 
 namespace Lokhman\Silex\Provider;
 
+use Hashids\Hashids;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Silex\Api\BootableProviderInterface;
 use Silex\Application;
-use Hashids\Hashids;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Silex service provider for Hashids library.
  *
  * @author Alexander Lokhman <alex.lokhman@gmail.com>
+ *
  * @link https://github.com/lokhman/silex-tools
  */
-class HashidsServiceProvider implements ServiceProviderInterface, BootableProviderInterface {
-
+class HashidsServiceProvider implements ServiceProviderInterface, BootableProviderInterface
+{
     /**
      * {@inheritdoc}
      */
-    public function register(Container $app) {
+    public function register(Container $app)
+    {
         $app['hashids._route_pattern'] = '^__hashids_';
 
         $app['hashids.options.default'] = [
-            'salt' => '',
+            'salt'       => '',
             'min_length' => 0,
-            'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+            'alphabet'   => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
         ];
 
-        $app['hashids'] = function(Container $app) {
+        $app['hashids'] = function (Container $app) {
             $options = $app['hashids.options.default'];
 
             if (isset($app['hashids.options']) && $app['hashids.options']) {
@@ -86,14 +89,15 @@ class HashidsServiceProvider implements ServiceProviderInterface, BootableProvid
     /**
      * {@inheritdoc}
      */
-    public function boot(Application $app) {
+    public function boot(Application $app)
+    {
         if ($app['hashids'] instanceof Container) {
             foreach ($app['hashids']->keys() as $profile) {
                 $app['hashids:'.$profile] = $app['hashids']->raw($profile);
             }
         }
 
-        $app->before(function(Request $request) use ($app) {
+        $app->before(function (Request $request) use ($app) {
             $pattern = '/'.$app['hashids._route_pattern'].'/';
 
             foreach ($request->attributes as $key => $value) {
@@ -114,5 +118,4 @@ class HashidsServiceProvider implements ServiceProviderInterface, BootableProvid
             }
         }, Application::LATE_EVENT);
     }
-
 }
