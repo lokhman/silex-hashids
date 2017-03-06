@@ -1,4 +1,7 @@
 # silex-hashids
+
+[![StyleCI](https://styleci.io/repos/79907743/shield?branch=master)](https://styleci.io/repos/79907743)
+
 [Hashids](http://hashids.org/php/) Service provider for [**Silex 2.0+**](http://silex.sensiolabs.org/) micro-framework.
 
 > This project is a part of [`silex-tools`](https://github.com/lokhman/silex-tools) library.
